@@ -5,7 +5,8 @@ const searchBtn = document.getElementById("search-btn");
 
 const movies = [];
 
-const renderMovies = () => {
+const renderMovies = (filter = "") => {
+  // this is default value of accepting arguments.
   const movieList = document.getElementById("movie-list");
 
   if (movies.length === 0) {
@@ -16,7 +17,9 @@ const renderMovies = () => {
   }
   movieList.innerHTML = "";
 
-  movies.forEach(movie => {
+  const filteredMovies = !filter ? movies : movies.filter(movie => movie.info.title.includes(filter));
+
+  filteredMovies.forEach(movie => {
     const movieEl = document.createElement("li");
     // movieEl.textContent = movie.info.title; //only hardcoded values can be fetched.
     let text = movie.info.title + "-";
@@ -52,5 +55,11 @@ const addMovieHandler = () => {
   renderMovies();
 };
 
+const searchMovieHandler = () => {
+  const filterTerm = document.getElementById("filter-title").value;
+  renderMovies(filterTerm);
+};
+
 // Now connect method to the button
 addMovieBtn.addEventListener("click", addMovieHandler);
+searchBtn.addEventListener("click", searchMovieHandler);
